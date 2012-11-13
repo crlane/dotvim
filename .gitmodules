@@ -22,3 +22,6 @@
 [submodule "bundle/colorschemes"]
 	path = bundle/colorschemes
 	url = git@github.com:flazz/vim-colorschemes.git
+[submodule "supertab"]
+	path = supertab
+	url = git://github.com/ervandew/supertab.git
