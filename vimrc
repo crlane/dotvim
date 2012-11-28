@@ -43,7 +43,7 @@ set number		" Enable line numbers by default
 set spell
 set et
 set sw=4
-colorscheme desert
+colorscheme vividchalk "formerly desert
 
 inoremap ii <Esc>
 noremap <F5> :! pdflatex %<CR>
