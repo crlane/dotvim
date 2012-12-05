@@ -52,4 +52,3 @@ noremap <F7> :! /usr/bin/python %<CR>
 noremap <F8> :! wc -c %<CR>
 inoremap #!py #!/usr/bin/python<CR>
 inoremap #!pl #!/usr/bin/perl <CR>
-let g:virtualenv_directory ='/Users/cameronlane/webdev'
