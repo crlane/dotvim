@@ -1,14 +1,14 @@
-"
-"
 " Cameron Lane's .vimrc customization file
-" Last change:	2012 November 5
+" Last change: May 18, 2013
 "
 runtime bundle/pathogen/autoload/pathogen.vim
-filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#infect()
 call pathogen#helptags()
-filetype plugin indent on
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -22,6 +22,7 @@ set incsearch		" do incremental searching
 " turn on this option as well
 set background=dark
 
+syntax enable
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -41,15 +42,20 @@ set autowrite		" Automatically save before commands like :next and :make
 "set mouse=a		" Enable mouse usage (all modes)
 set number		" Enable line numbers by default
 set spell
-set et
+set expandtab
 set sw=4
-colorscheme vividchalk "formerly desert
+set tabstop=4
+set autoindent
+set smartindent
+set shiftwidth=4
+set encoding=utf8
 
-inoremap ii <Esc>
+colorscheme vividchalk "formerly I set it to more matte desert theme
+
+inoremap ;; <Esc>
 noremap <F5> :! pdflatex %<CR>
 noremap <F6> :! /usr/bin/perl %<CR>
-noremap <F7> :! /usr/bin/python %<CR>
+noremap <F7> :! python %<CR>
 noremap <F8> :! wc -c %<CR>
-inoremap #!py #!/usr/bin/python<CR>
-inoremap #!pl #!/usr/bin/perl <CR>
-let g:virtualenv_directory ='/Users/cameronlane/webdev'
+
+let g:snips_author = 'Cameron Lane'
