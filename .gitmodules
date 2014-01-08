@@ -22,9 +22,6 @@
 [submodule "bundle/colorschemes"]
 	path = bundle/colorschemes
 	url = git@github.com:flazz/vim-colorschemes.git
-[submodule "supertab"]
-	path = supertab
-	url = git://github.com/ervandew/supertab.git
 [submodule "bundle/supertab"]
 	path = bundle/supertab
 	url = git://github.com/ervandew/supertab.git
@@ -34,3 +31,6 @@
 [submodule "bundle/django"]
 	path = bundle/django
 	url = git://github.com/vim-scripts/django.vim.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = git@github.com:scrooloose/syntastic.git
