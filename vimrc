@@ -57,5 +57,5 @@ noremap <F5> :! pdflatex %<CR>
 noremap <F6> :! /usr/bin/perl %<CR>
 noremap <F7> :! python %<CR>
 noremap <F8> :! wc -c %<CR>
-
+" for snipmates plugin
 let g:snips_author = 'Cameron Lane'
