@@ -1,6 +1,7 @@
-" Cameron Lane's .vimrc customization file
-" Last change: May 18, 2013
+"Cameron Lane's .vimrc customization file
+" Last change: October 2, 2015
 "
+" enable pathogen 
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect('bundle/{}')
 call pathogen#helptags()
@@ -9,16 +10,24 @@ call pathogen#helptags()
 filetype plugin on
 filetype indent on
 
+" always work with unicode files
+set encoding=utf-8
+set fileencoding=utf-8
+
+" if using gui, make sure powerline fonts are available
+set guifont=Liberation_Mono_for_Powerline:h10
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set history=50  " keep 50 lines of command line history
+set ruler       " show the cursor position all the time
+set showcmd     " display incomplete commands
+set incsearch   " do incremental searching
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
+colorscheme molokai "formerly I set it to more matte desert theme
 set background=dark
 
 syntax enable
@@ -29,32 +38,42 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-" The following are commented out as they cause vim to behave a lot
-" differently from regular Vi. They are highly recommended though.
-set showcmd		" Show (partial) command in status line.
-set showmatch		" Show matching brackets.
-"set ignorecase		" Do case insensitive matching
-"set smartcase		" Do smart case matching
-set incsearch		" Incremental search
-set autowrite		" Automatically save before commands like :next and :make
-"set hidden             " Hide buffers when they are abandoned
-"set mouse=a		" Enable mouse usage (all modes)
-set number		" Enable line numbers by default
-set spell
-set expandtab
-set sw=4
-set tabstop=4
-set autoindent
-set smartindent
-set shiftwidth=4
-set encoding=utf8
+set showmatch   " Show matching brackets.
 
-colorscheme vividchalk "formerly I set it to more matte desert theme
+set incsearch   " Incremental search
+set autowrite   " Automatically save before commands like :next and :make
 
-inoremap ;; <Esc>
-noremap <F5> :! pdflatex %<CR>
-noremap <F6> :! /usr/bin/perl %<CR>
-noremap <F7> :! python %<CR>
-noremap <F8> :! wc -c %<CR>
-" for snipmates plugin
-let g:snips_author = 'Cameron Lane'
+set number      " Enable line numbers by default
+
+" prefer spaces over tabs
+set tabstop=4 shiftwidth=4 expandtab
+
+" always show status bar (helpful for airline)
+set laststatus=2
+
+
+" don't leave the home row
+inoremap jj <Esc>
+"
+"noremap <F5> :! pdflatex %<CR>
+"noremap <F6> :! /usr/bin/perl %<CR>
+"noremap <F7> :! python %<CR>
+"noremap <F8> :! wc -c %<CR>
+
+" airline plugin
+let g:airline_theme='molokai'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_detect_iminsert = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tmuxline#enabled = 0
+"
+"tmuxline
+"let g:tmuxline_powerline_separators = 0
+
+" vim-gist
+let g:gist_post_private = 1
+let g:gist_show_privates = 1
+let g:gist_api_url = 'https://github.atl.pindrop.net/api/v3'
+let g:gist_use_password_in_gitconfig = 0
+let g:gist_clip_command = 'pbcopy'
+
