@@ -77,3 +77,12 @@ let g:gist_api_url = 'https://github.atl.pindrop.net/api/v3'
 let g:gist_use_password_in_gitconfig = 0
 let g:gist_clip_command = 'pbcopy'
 
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
