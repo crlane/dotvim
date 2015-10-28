@@ -95,3 +95,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll|pyc)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+" flake8
+autocmd BufWritePost *.py call Flake8()
+
