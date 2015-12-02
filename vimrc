@@ -27,13 +27,14 @@ set history=50  " keep 50 lines of command line history
 set ruler       " show the cursor position all the time
 set showcmd     " display incomplete commands
 set incsearch   " do incremental searching
+set spell
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
-colorscheme molokai "formerly I set it to more matte desert theme
-set background=dark
-
 syntax enable
+set background=dark
+colorscheme solarized "formerly I set it to more matte desert theme
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -64,11 +65,10 @@ inoremap jj <Esc>
 "noremap <F8> :! wc -c %<CR>
 
 " airline plugin
-let g:airline_theme='molokai'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_iminsert = 1
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tmuxline#enabled = 0
+"let g:airline#extensions#tmuxline#enabled = 0
 "
 "tmuxline
 "let g:tmuxline_powerline_separators = 0
@@ -89,10 +89,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers = ['flake8', 'pyflakes', 'pylint']
+let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_python_flake8_args = "--ignore=E501"
 
-" ctrp
+" ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
@@ -134,3 +134,9 @@ let g:gist_post_private = 1
 if executable('ag')
     let g:ackprg = 'ag --nogroup --nocolor --column' 
 endif
+
+nnoremap <silent> <C-h> :wincmd h<CR>
+nnoremap <silent> <C-j> :wincmd j<CR>
+nnoremap <silent> <C-k> :wincmd k<CR>
+nnoremap <silent> <C-l> :wincmd l<CR>
+
