@@ -1,7 +1,7 @@
 "Cameron Lane's .vimrc customization file
 " Last change: October 2, 2015
 "
-" enable pathogen 
+" enable pathogen
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect('bundle/{}')
 call pathogen#helptags()
@@ -33,7 +33,7 @@ set spell
 " turn on this option as well
 syntax enable
 set background=dark
-colorscheme solarized "formerly I set it to more matte desert theme
+colorscheme solarized
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -43,7 +43,6 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 set showmatch   " Show matching brackets.
-
 set incsearch   " Incremental search
 set autowrite   " Automatically save before commands like :next and :make
 
@@ -61,13 +60,14 @@ inoremap jj <Esc>
 "
 "noremap <F5> :! pdflatex %<CR>
 "noremap <F6> :! /usr/bin/perl %<CR>
-"noremap <F7> :! python %<CR>
+noremap <F7> :! python %<CR>
 "noremap <F8> :! wc -c %<CR>
 
 " airline plugin
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_iminsert = 1
 let g:airline_powerline_fonts = 1
+let g:airline_section_z = '%3l/%L:%2c'
 "let g:airline#extensions#tmuxline#enabled = 0
 "
 "tmuxline
@@ -90,19 +90,17 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_python_flake8_args = "--ignore=E501"
+let g:syntastic_python_flake8_args = '--ignore=E501'
+
 
 " ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*/node_modules/*,*/tmp/*,*.so,*.swp,*.zip,/*/bower_components/*
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'dir':  '\v[\/]\.(git|hg|svn|)$',
   \ 'file': '\v\.(exe|so|dll|pyc)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
-
-" flake8
-autocmd BufWritePost *.py call Flake8()
 
 " set 2 space tabs for the following filetypes
 autocmd FileType ruby,haml,eruby,yaml,sass,cucumber,javascript,html set ai sw=2 sts=2 et
@@ -110,19 +108,22 @@ autocmd FileType ruby,haml,eruby,yaml,sass,cucumber,javascript,html set ai sw=2 
 " highlight json as though it were JS
 autocmd BufNewFile,BufRead *.json setlocal ft=javascript
 
-" " the following extensions should be treated like ruby
+" the following extensions should be treated like ruby
 autocmd BufNewFile,BufRead {Gemfile,VagrantFile,*.pp} set ft=ruby
 
-" " cython files should be treated like python
+" cython files should be treated like python
 " autocmd BufNewFile,BufRead *.pyx setlocal ft=python
-"
+
+
 " " Go uses tabs not spaces
 autocmd FileType go setlocal noexpandtab
 
-" " highlight trailing whitespace in any filetype
+" highlight trailing whitespace in any filetype
 hi ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-"
+
+
+
 " gist-vim githubenterprise host
 let g:gist_api_url = 'https://github.atl.pdrop.net/api/v3'
 " gist-vim detect filetype from filename
@@ -132,11 +133,19 @@ let g:gist_post_private = 1
 
 " prefer ag over ack
 if executable('ag')
-    let g:ackprg = 'ag --nogroup --nocolor --column' 
+    let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
 nnoremap <silent> <C-h> :wincmd h<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-l> :wincmd l<CR>
-
+"
+" format with goimports instead of gofmt
+let g:go_fmt_command = "goimports"
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)

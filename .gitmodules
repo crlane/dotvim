@@ -46,9 +46,9 @@
 [submodule "bundle/vim-signify"]
 	path = bundle/vim-signify
     url = git@github.com:mhinz/vim-signify.git
-[submodule "bundle/vim-flake8"]
-	path = bundle/vim-flake8
-	url = git@github.com:nvie/vim-flake8.git
 [submodule "bundle/vim-go"]
 	path = bundle/vim-go
 	url = https://github.com/fatih/vim-go.git
+[submodule "bundle/vim-lint"]
+	path = bundle/vim-lint
+	url = https://github.com/dbakker/vim-lint.git
