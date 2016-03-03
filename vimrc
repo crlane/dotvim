@@ -63,6 +63,7 @@ inoremap jj <Esc>
 noremap <F7> :! python %<CR>
 "noremap <F8> :! wc -c %<CR>
 
+let mapleader = "\<Space>"
 " airline plugin
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_detect_iminsert = 1
@@ -91,6 +92,9 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_python_flake8_args = '--ignore=E501'
+" make syntastic place nice with vim-go
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 
 " ctrlp
@@ -102,6 +106,20 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
+let g:ctrlp_use_caching = 0
+
+if executable('ag')
+set grepprg=ag\ --nogroup\ --nocolor
+
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+    let g:ctrlp_prompt_mappings = {
+        \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+        \ }
+endif
+
+"
 " set 2 space tabs for the following filetypes
 autocmd FileType ruby,haml,eruby,yaml,sass,cucumber,javascript,html set ai sw=2 sts=2 et
 
@@ -117,6 +135,7 @@ autocmd BufNewFile,BufRead {Gemfile,VagrantFile,*.pp} set ft=ruby
 
 " " Go uses tabs not spaces
 autocmd FileType go setlocal noexpandtab
+autocmd FileType go setlocal tabstop=8
 
 " highlight trailing whitespace in any filetype
 hi ExtraWhitespace ctermbg=red guibg=red
@@ -131,7 +150,7 @@ let g:gist_detect_filetype = 1
 " private by default
 let g:gist_post_private = 1
 
-" prefer ag over ack
+" prefer ag over ack for ack.vim
 if executable('ag')
     let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
@@ -149,3 +168,4 @@ au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 au FileType go nmap <Leader>gd <Plug>(go-doc)
 au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+
