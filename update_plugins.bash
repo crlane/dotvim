@@ -1,3 +1,3 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 git submodule update --init --recursive
-git subodule foreach git pull origin master
+git submodule foreach git pull origin master

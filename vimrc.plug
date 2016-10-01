@@ -1,0 +1,164 @@
+" Cameron Lane's .vimrc customization file
+" Last change: 2016-10-01
+" Plugins
+
+call plug#begin('~/.vim/plugged')
+    Plug 'airblade/vim-gitgutter'
+    Plug 'dbakker/vim-lint' " lints vimrc
+    Plug 'edkolev/tmuxline.vim'
+    Plug 'fatih/vim-go', {'tag': '*' , 'do': ':GoInstallBinaries', 'for': 'go'}
+    Plug 'flazz/vim-colorschemes'
+    Plug 'kien/ctrlp.vim'
+    Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim' " dependencies are expressed like this
+    Plug 'mileszs/ack.vim'
+    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+    Plug 'scrooloose/syntastic'
+    Plug 'tomtom/tcomment_vim'
+    Plug 'tpope/vim-fugitive'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+call plug#end()
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" useful for when you're working on your vimrc or using the -u option to load
+" alternate vimrc
+set nocompatible
+
+" Appearance & Fonts
+syntax enable                           " If using a dark background within the editing area and syntax highlighting
+set background=dark                     " set a dark background
+colorscheme solarized
+
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 4 || has("gui_running")
+    syntax on                           " Switch syntax highlighting on, when the terminal has colors
+	set hlsearch                        " highlight when searching
+	set guifont=Liberation_Mono_for_Powerline:h10 " if using gui, make sure powerline fonts are available
+endif
+
+" General Editor settings
+set encoding=utf-8                      " always work with unicode files
+set fileencoding=utf-8                  " always work with unicode files
+set backspace=indent,eol,start          " allow backspacing over everything in insert mode
+set history=50                          " keep 50 lines of command line history
+set ruler                               " show the cursor position all the time
+set showcmd                             " display incomplete commands
+set incsearch                           " do incremental searching
+set spell                               " check spelling by default.
+set showmatch                           " Show matching brackets.
+set incsearch                           " Incremental search
+set autowrite                           " Automatically save before commands like :next and :make
+set number                              " Enable line numbers by default
+set tabstop=4 shiftwidth=4 expandtab    " prefer spaces over tabs
+set laststatus=2                        " always show status bar (helpful for airline)
+set pastetoggle=<F7>
+
+" FileType specific settings
+au FileType python set colorcolumn=80   " add an 80 char bg highlight
+" set 2 space tabs for the following filetypes
+autocmd FileType ruby,haml,eruby,yaml,sass,cucumber,javascript,html set ai sw=2 sts=2 et
+" highlight json as though it were JS
+autocmd BufNewFile,BufRead *.json setlocal ft=javascript
+" the following extensions should be treated like ruby
+autocmd BufNewFile,BufRead {Gemfile,VagrantFile,*.pp} set ft=ruby
+" cython files should be treated like python
+autocmd BufNewFile,BufRead *.pyx setlocal ft=python
+" Go uses tabs not spaces
+autocmd FileType go setlocal noexpandtab
+autocmd FileType go setlocal tabstop=4
+
+
+" Key Remappings
+let mapleader = '\<Space>'
+inoremap jj <Esc>                       " don't leave the home row
+nnoremap <silent> <C-h> :wincmd h<cr>   " better window navigation
+nnoremap <silent> <C-j> :wincmd j<cr>   " better window navigation
+nnoremap <silent> <C-k> :wincmd k<cr>   " better window navigation
+nnoremap <silent> <C-l> :wincmd l<cr>   " better window navigation
+map <silent> <Leader>h :noh<cr>         " Disable highlight when <Leader><Leader> is pressed
+nmap <Leader>u :diffput<cr>             " Diff put for fugitivie's Gdiff
+nmap <Leader>g :diffget<cr>             " Dif get for fugitive's Gdiff
+xnoremap <Leader>y "+y                  " copy to system clipboard
+xnoremap <Leader>d "+d                  " cut to system clipboard
+noremap <Leader>p <F7>                  " paste from system clipboard
+noremap <Leader>P <F7>"+P<F7>           " paste from system clipboard
+noremap <Leader>v <F7>"*p<F7>           " paste from system clipboard
+noremap <Leader>V <F7>"*P<F7>           " paste from system clipboard
+nnoremap <Leader>tb :%s/#012/\r/ge<cr>  " fix tracebacks
+nnoremap <Leader>ws :%s/\s\+$//e<cr>    " fix trailing whitespace
+
+
+" noremap <F5> :! pdflatex %<cr>
+" noremap <F6> :! /usr/bin/perl %<cr>
+" noremap <F7> :! python %<cr>
+" noremap <F8> :! wc -c %<cr>
+
+" Go vim specific bindings
+au FileType go nmap <Leader>r <Plug>(go-run)
+au FileType go nmap <Leader>b <Plug>(go-build)
+au FileType go nmap <Leader>t <Plug>(go-test)
+au FileType go nmap <Leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+
+" Plugin specific values
+
+" airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_detect_iminsert = 1
+let g:airline_powerline_fonts = 1
+let g:airline_section_z = '%3l/%L:%2c'
+" let g:airline#extensions#tmuxline#enabled = 0
+
+" tmuxline
+" let g:tmuxline_powerline_separators = 0
+
+" vim-gist
+let g:gist_post_private = 1
+let g:gist_show_privates = 1
+let g:gist_api_url = 'https://github.atl.pindrop.net/api/v3'
+let g:gist_use_password_in_gitconfig = 0
+let g:gist_clip_command = 'pbcopy'
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args = '--ignore=E501,E111'
+
+" make syntastic place nice with vim-go
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+
+" ctrlp
+set wildignore+=*/node_modules/*,*/tmp/*,*.so,*.swp,*.zip,*/bower_components/*,*vendor/*
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(git|hg|svn|)$','file': '\v\.(exe|so|dll|pyc)$','link': 'some_bad_symbolic_links',}
+let g:ctrlp_use_caching = 0
+if executable('ag')
+	set grepprg=ag\ --nogroup\ --nocolor
+	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+	let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+	let g:ctrlp_prompt_mappings = {'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],}
+endif
+
+" highlight trailing whitespace in any filetype
+hi ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" prefer ag over ack for ack.vim
+if executable('ag')
+	let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
+
+" format with goimports instead of gofmt
+let g:go_fmt_command = "goimports"
