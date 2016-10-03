@@ -83,9 +83,9 @@ nnoremap <silent> <C-l> :wincmd l<cr>   " better window navigation
 map <silent> <Leader>h :noh<cr>         " Disable highlight when <Leader><Leader> is pressed
 nmap <Leader>u :diffput<cr>             " Diff put for fugitivie's Gdiff
 nmap <Leader>g :diffget<cr>             " Dif get for fugitive's Gdiff
-xnoremap <Leader>y "+y                  " copy to system clipboard
-xnoremap <Leader>d "+d                  " cut to system clipboard
-nmap <Leader>p <F7>                  " paste from system clipboard
+xnoremap <Leader>y "*y                  " copy to system clipboard
+xnoremap <Leader>d "*d                  " cut to system clipboard
+nmap <Leader>p <F7>"+p<F7>                  	" paste from system clipboard
 noremap <Leader>P <F7>"+P<F7>           " paste from system clipboard
 noremap <Leader>v <F7>"*p<F7>           " paste from system clipboard
 noremap <Leader>V <F7>"*P<F7>           " paste from system clipboard
