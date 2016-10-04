@@ -56,7 +56,8 @@ set autowrite                           " Automatically save before commands lik
 set number                              " Enable line numbers by default
 set tabstop=4 shiftwidth=4 expandtab    " prefer spaces over tabs
 set laststatus=2                        " always show status bar (helpful for airline)
-set pastetoggle=<F7>
+set pastetoggle=<F7>                    " set the pastetoggle to F7
+set clipboard=unnamed                   " use systemclipboard
 
 " FileType specific settings
 au FileType python set colorcolumn=80   " add an 80 char bg highlight
@@ -71,6 +72,7 @@ autocmd BufNewFile,BufRead *.pyx setlocal ft=python
 " Go uses tabs not spaces
 autocmd FileType go setlocal noexpandtab
 autocmd FileType go setlocal tabstop=4
+
 
 " set persistent undo
 if has('persistent_undo')
