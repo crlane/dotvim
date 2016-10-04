@@ -72,6 +72,12 @@ autocmd BufNewFile,BufRead *.pyx setlocal ft=python
 autocmd FileType go setlocal noexpandtab
 autocmd FileType go setlocal tabstop=4
 
+" set persistent undo
+if has('persistent_undo')
+    set undodir=$HOME/.vim/undo
+    set undolevels=10000
+    set undofile
+endif
 
 " Key Remappings
 let mapleader = '\<Space>'
