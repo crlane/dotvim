@@ -164,4 +164,4 @@ endif
 
 " format with goimports instead of gofmt
 let g:go_fmt_command = "goimports"
-let g:ale_python_flake8_executable = expand("~/.virtualenvs/systools/bin/flake9")
+let g:ale_python_flake8_executable = expand("~/.virtualenvs/systools/bin/flake8")
