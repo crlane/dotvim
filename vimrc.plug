@@ -4,26 +4,28 @@
 " Plugins
 call plug#begin('~/.vim/plugged')
     Plug 'airblade/vim-gitgutter'
+    Plug 'alfredodeza/jacinto.vim'
     Plug 'cespare/vim-toml'
     Plug 'dbakker/vim-lint' " lints vimrc
     Plug 'edkolev/tmuxline.vim'
     Plug 'ekalinin/Dockerfile.vim'
     Plug 'fatih/vim-go', {'tag': '*' , 'do': ':GoInstallBinaries', 'for': 'go'}
     Plug 'flazz/vim-colorschemes'
+    Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+    Plug 'junegunn/fzf.vim'
     Plug 'justmao945/vim-clang', {'for': ['c', 'cpp']}
-    Plug 'kien/ctrlp.vim'
     Plug 'lepture/vim-jinja'
     Plug 'mattn/gist-vim' | Plug 'mattn/webapi-vim' " dependencies are expressed like this
-    Plug 'mileszs/ack.vim'
-    Plug 'alfredodeza/jacinto.vim'
-    Plug 'Rykka/riv.vim', {'for': 'rst'}
     Plug 'rust-lang/rust.vim', {'for': 'rust'}
-    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+    Plug 'Rykka/riv.vim', {'for': 'rst'}
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-fugitive'
-    Plug 'w0rp/ale'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-unimpaired'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'vim-pandoc/vim-pandoc', {'for': 'markdown'}
+    Plug 'w0rp/ale'
 call plug#end()
 
 " Key Remappings
@@ -39,12 +41,14 @@ nmap <Leader>u :diffput<cr>
 nmap <Leader>g :diffget<cr>
 xnoremap <Leader>y "*y
 xnoremap <Leader>d "*d
-nmap <Leader>p <F7>"+p<F7>
+nnoremap <Leader>p <F7>"+p<F7>
 noremap <Leader>P <F7>"+P<F7>
 noremap <Leader>v <F7>"*p<F7>
-noremap <Leader>V <F7>"*P<F7>
-nnoremap <Leader>tb :%s/#012/\r/ge<cr>
-nnoremap <Leader>ws :%s/\s\+$//e<cr>
+noremap <leader>v <f7>"*p<f7>
+nnoremap <leader>tb :%s/#012/\r/ge<cr>
+nnoremap <leader>ws :%s/\s\+$//e<cr>
+nnoremap <C-p> :Files<cr>
+nnoremap <leader>f :Find 
 
 " Enable filetype plugins
 filetype plugin on
@@ -141,28 +145,31 @@ let g:gist_use_password_in_gitconfig = 0
 let g:gist_clip_command = 'pbcopy'
 let g:gist_curl_options= '-Lv'
 
-" ctrlp
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_use_caching = 0
-if executable("ag")
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = "ag %s -l --nocolor -g '' -p ~/.gitignore_global"
-else
-    set wildignore+=*/*_modules/*,*/tmp/*,*.so,*.swp,*.zip,*/vendor/*,*/.git/*
-    let g:ctrlp_custom_ignore = {'dir':  '\v[\/]\.(git|hg|svn|)$','file': '\v\.(exe|so|dll|pyc)$',}
-    let g:ctrlp_prompt_mappings = {'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],}
-endif
 
 " highlight trailing whitespace in any filetype
 hi ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 
-" prefer ag over ack for ack.vim
-if executable('ag')
-    let g:ackprg = 'ag --nogroup --nocolor --column'
-endif
-
 " format with goimports instead of gofmt
 let g:go_fmt_command = "goimports"
-let g:ale_python_flake8_executable = expand("~/.virtualenvs/systools/bin/flake8")
+let g:ale_python_flake8_executable = expand("flake8")
+let g:ale_python_flake8_args="--ignore=E501"
+let g:ale_fixers= {'python': ['remove_trailing_lines', 'trim_whitespace']}
+
+
+" https://medium.com/@crashybang/supercharge-vim-with-fzf-and-ripgrep-d4661fc853d2
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+" format XML with gg=G
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+au FileType json setlocal equalprg=python\ -m\ json.tool
