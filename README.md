@@ -7,7 +7,7 @@ Instructions for setting up new machine
 ---------------------------------------
 ```bash
     git clone git@github.com:crlane/dotvim.git ~/.vim
-    ln -s ~/.vim/vimrc ~/.vimrc
+    ln -s ~/.vim/vimrc.plug ~/.vimrc
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
